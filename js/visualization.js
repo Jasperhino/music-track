@@ -234,9 +234,7 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.append('text')
 		.append('textPath') //append a textPath to the text element
 		.attr('xlink:href', (a) => `#label-${a[0]}`) //place the ID of the path here
-		.style('text-anchor', 'middle') //place the text halfway on the arc
 		.attr('fill', 'white')
-		//.attr('startOffset', '50%')
 		.text((a) => a[0]);
 	//This will get stashed
 }
