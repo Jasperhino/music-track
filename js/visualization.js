@@ -10,6 +10,7 @@ d3.csv('data/tracks.csv', (track) =>
 		energy: track.energy,
 		loudness: track.loudness,
 		liveness: track.liveness,
+		acousticness: track.acousticness,
 		valence: track.valence,
 		tempo: track.tempo,
 		popularity: track.popularity,
@@ -18,38 +19,46 @@ d3.csv('data/tracks.csv', (track) =>
 ).then(useData);
 
 function useData(data) {
+	const filtered_data = data.filter((d) => d.duration < 10 * 60 * 1000);
+	console.log(
+		`We filtered ${data.length - filtered_data.length} of ${
+			data.length
+		} tracks`
+	);
+
+	console.log(
+		`Thats ${((data.length - filtered_data.length) / data.length) * 100}%`
+	);
+
 	const tempoScale = d3
 		.scaleLinear()
-		.domain(d3.extent(data, (d) => d.tempo))
+		.domain(d3.extent(filtered_data, (d) => d.tempo))
 		.range([0, 1]);
 
 	const durationScale = d3
 		.scaleLinear()
-		.domain(d3.extent(data, (d) => d.duration))
+		.domain(d3.extent(filtered_data, (d) => d.duration))
 		.range([0, 1]);
 
 	const loudnessScale = d3
 		.scaleLinear()
-		.domain(d3.extent(data, (d) => d.loudness))
+		.domain(d3.extent(filtered_data, (d) => d.loudness))
 		.range([0, 1]);
 
-	console.log(d3.extent(data, (d) => d.duration));
-	console.log(tempoScale(data[0].tempo));
-	console.log(loudnessScale(-17));
 	console.log(
 		'duration',
-		d3.extent(data, (d) => d.duration)
+		d3.extent(filtered_data, (d) => d.duration)
 	);
 	console.log(
 		'loudness',
-		d3.extent(data, (d) => d.loudness)
+		d3.extent(filtered_data, (d) => d.loudness)
 	);
 	console.log(
 		'tempo',
-		d3.extent(data, (d) => d.tempo)
+		d3.extent(filtered_data, (d) => d.tempo)
 	);
 
-	const scaled_data = data.map((track) => ({
+	const scaled_data = filtered_data.map((track) => ({
 		name: track.name,
 		artists: track.artists,
 		tempo: tempoScale(track.tempo),
@@ -57,6 +66,7 @@ function useData(data) {
 		loudness: loudnessScale(track.loudness),
 		year: new Date(track.release_date).getFullYear(),
 		danceability: track.danceability,
+		acousticness: track.acousticness,
 		energy: track.energy,
 		valence: track.valence,
 		liveness: track.liveness,
@@ -65,31 +75,30 @@ function useData(data) {
 
 	scaled_data.sort((a, b) => d3.descending(a.popularity, b.popularity));
 
-	console.log(scaled_data[0]);
-
 	const ticks = d3
 		.scaleTime()
-		.domain(d3.extent(data, (d) => d.release_date))
+		.domain(d3.extent(scaled_data, (d) => d.year))
 		.ticks(10)
 		.slice(2, -1);
 
-	console.log(ticks);
+	console.log('ticks', ticks);
 	const bins = d3
 		.bin()
 		.value((d) => d.year)
 		.thresholds(ticks)(scaled_data);
 
-	const top100bins = bins.map((bin) => bin.slice(0, 10));
-	console.log(top100bins);
+	const top100bins = bins.map((bin) => bin.slice(0, 100));
+	const decade_bins = top100bins.slice(1, top100bins.length);
+	console.log('bins', decade_bins);
 
 	//Plot
 	const width = 500;
 	const height = 500;
-
-	top100bins.map((bin, i) => {
+	console.log(decade_bins);
+	for (const [i, bin] of decade_bins.entries()) {
 		console.log(`small-multiple-${i + 1}`);
 		radar_box_plot(bin, `small-multiple-${i + 1}`, width, height);
-	});
+	}
 }
 
 function radar_box_plot(data, container_id, width, height, scale = 200) {
@@ -100,10 +109,13 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		'danceability',
 		'energy',
 		'valence',
-		'liveness',
+		'acousticness',
 	];
 
-	const svg = d3.select(`#${container_id}`).append('svg');
+	const svg = d3
+		.select(`#${container_id}`)
+		.append('svg')
+		.attr('viewBox', [-width / 2, -height / 2, width, height]);
 
 	const quantileArcs = categories.map((category, i) => {
 		const values = data.map((d) => d[category]);
@@ -151,16 +163,16 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		};
 	});
 
-	const axes = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
-		const max = d3.max(values);
-		return {
-			innerRadius: max * scale,
-			outerRadius: max * scale,
+	const labelArcs = categories.map((category, i) => [
+		category,
+		{
+			innerRadius: 1.1 * scale,
+			outerRadius: 1.1 * scale,
 			startAngle: ((Math.PI * 2) / 7) * i,
 			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
+		},
+	]);
+
 	const arc = d3.arc();
 
 	svg.selectAll('.minArc')
@@ -207,8 +219,23 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.attr('transform', (d, i) => `rotate(${(i * 360) / 7 + 360 / 14})`)
 		.attr('stroke', 'white');
 
-	return d3
-		.select(container_id)
-		.append('svg')
-		.attr('viewBox', [-width / 2, -height / 2, width, height]);
+	svg.selectAll('.labelArcs')
+		.data(labelArcs)
+		.join('path')
+		.attr('id', (a) => `label-${a[0]}`)
+		.attr('class', 'arc')
+		//.attr('stroke', 'red')
+		.attr('stroke-width', 5)
+		.attr('d', (a) => arc(a[1]));
+
+	svg.selectAll('.labels')
+		.data(labelArcs)
+		.enter()
+		.append('text')
+		.append('textPath') //append a textPath to the text element
+		.attr('xlink:href', (a) => `#label-${a[0]}`) //place the ID of the path here
+		.style('text-anchor', 'middle') //place the text halfway on the arc
+		.attr('fill', 'white')
+		//.attr('startOffset', '50%')
+		.text((a) => a[0]);
 }
