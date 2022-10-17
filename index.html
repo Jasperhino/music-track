@@ -1,127 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>(musicTracker)</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>(musicTracker)</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap"
+			rel="stylesheet" />
+		<script
+			type="text/javascript"
+			src="https://d3js.org/d3.v7.min.js"></script>
+		<script type="module" src="js/visualization.js"></script>
+	</head>
+	<body>
+		<div id="web">
+			<header>
+				<div id="link-container">
+					<h1 id="header-link">about</h1>
+				</div>
+				<div id="title-container">
+					<h1>(musicTrack)</h1>
+					<h1 id="description"
+						>Visualizing the most popular songs of the last 10
+						decades.</h1
+					>
+				</div>
+			</header>
 
+			<!-- Window 1 - Home: Small Multiples -->
+			<div id="window-1">
+				<div id="small-multiples-wrapper">
+					<div id="small-multiples-container">
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-1">
+							</div>
+							<div class="sm-labels-container">
+								<h3>20s</h3>
+								<h4>1920—1930</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-2"></div>
+							<div class="sm-labels-container">
+								<h3>30s</h3>
+								<h4>1930—1940</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-3"></div>
+							<div class="sm-labels-container">
+								<h3>40s</h3>
+								<h4>1940—1950</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-4"></div>
+							<div class="sm-labels-container">
+								<h3>50s</h3>
+								<h4>1950—1960</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-5"></div>
+							<div class="sm-labels-container">
+								<h3>60s</h3>
+								<h4>1960—1970</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-6"></div>
+							<div class="sm-labels-container">
+								<h3>70s</h3>
+								<h4>1970—1980</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-7"></div>
+							<div class="sm-labels-container">
+								<h3>80s</h3>
+								<h4>1980—1990</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-8"></div>
+							<div class="sm-labels-container">
+								<h3>90s</h3>
+								<h4>1990—2000</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-9"></div>
+							<div class="sm-labels-container">
+								<h3>00s</h3>
+								<h4>2000—2010</h4>
+							</div>
+						</div>
+						<div class="small-multiples">
+							<div
+								class="sm-graph-container"
+								id="small-multiple-10"></div>
+							<div class="sm-labels-container">
+								<h3>10s</h3>
+								<h4>2000—2010</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
+			<div id="window-2and3">
+				<!-- Button to toggle between windows 2 and 3 -->
+				<div class="button-window" id="button-toggle-window-right"
+					>&rarr;</div
+				>
+				<div class="button-window" id="button-toggle-window-left"
+					>&larr;</div
+				>
 
+				<!-- Window 2 - Graph label: Single graph -->
+				<div id="window-2">
+					<div class="grid" id="label-graph-wrapper">
+						<div id="label-graph-container">
+							<img
+								src="assets/delete-later.png"
+								style="width: 100%" />
+						</div>
 
-    <div id = "web">
-        <header>
-            <div id="link-container">
-                <h1 id="header-link">about</h1>
-            </div>
-            <div id="title-container">
-                <h1>(musicTrack)</h1>
-                <h1 id="description">Visualizing the most popular songs of the last 10 decades.</h1>
-            </div>
-
-        </header>
-
-        <!-- Window 1 - Home: Small Multiples -->
-        <div id="window-1">
-                <div id="small-multiples-wrapper">
-                    <div id="small-multiples-container">
-
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-1"></div>
-                            <div class="sm-labels-container">
-                                <h3>20s</h3>
-                                <h4>1920—1930</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-2"></div>
-                            <div class="sm-labels-container">
-                                <h3>30s</h3>
-                                <h4>1930—1940</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-3"></div>
-                            <div class="sm-labels-container">
-                                <h3>40s</h3>
-                                <h4>1940—1950</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-4"></div>
-                            <div class="sm-labels-container">
-                                <h3>50s</h3>
-                                <h4>1950—1960</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-5"></div>
-                            <div class="sm-labels-container">
-                                <h3>60s</h3>
-                                <h4>1960—1970</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-6"></div>
-                            <div class="sm-labels-container">
-                                <h3>70s</h3>
-                                <h4>1970—1980</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-7"></div>
-                            <div class="sm-labels-container">
-                                <h3>80s</h3>
-                                <h4>1980—1990</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-8"></div>
-                            <div class="sm-labels-container">
-                                <h3>90s</h3>
-                                <h4>1990—2000</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-9"></div>
-                            <div class="sm-labels-container">
-                                <h3>00s</h3>
-                                <h4>2000—2010</h4>
-                            </div>
-                        </div>
-                        <div class="small-multiples">
-                            <div class="sm-graph-container" id="small-multiple-10"></div>
-                            <div class="sm-labels-container">
-                                <h3>10s</h3>
-                                <h4>2000—2010</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        </div>
-
-        <div id="window-2and3">
-            <!-- Button to toggle between windows 2 and 3 -->
-            <div class="button-window" id="button-toggle-window-right">&rarr;</div>
-            <div class="button-window" id="button-toggle-window-left">&larr;</div>
-
-            <!-- Window 2 - Graph label: Single graph -->
-            <div id="window-2">
-                <div class="grid" id="label-graph-wrapper">
-                    <div id="label-graph-container">
-                        <img src="assets/delete-later.png" style="width:100%;">
-                    </div>
-
-                    <!--
+						<!--
                         category-dancibility
                         category-energy
                         category-loudness
@@ -131,101 +159,161 @@
                         category-duration
                     -->
 
+						<div class="label-graph-text" id="category-dancibility">
+							<h1 id="category-name">Dancibility</h1>
+							<div id="category-range">0 to 100%</div>
+							<div id="category-description"
+								>Strength and regularity of the beat.</div
+							>
+						</div>
+						<div class="label-graph-text" id="category-energy">
+							<h1 id="category-name">Energy</h1>
+							<div id="category-range">0 to 100%</div>
+							<div id="category-description"
+								>Perceptual measure of intensity and
+								activity.</div
+							>
+						</div>
+						<div class="label-graph-text" id="category-loudness">
+							<h1 id="category-name">Loudness</h1>
+							<div id="category-range">-60db to 60db</div>
+							<div id="category-description"
+								>Primary psychological correlate of physical
+								strength (amplitude)</div
+							>
+						</div>
+						<div class="label-graph-text" id="category-liveness">
+							<h1 id="category-name">Liveness</h1>
+							<div id="category-range">0 to 100%</div>
+							<div id="category-description"
+								>A value above 0.8 provides strong likelihood
+								that the track is live.</div
+							>
+						</div>
+						<div class="label-graph-text" id="category-tempo">
+							<h1 id="category-name">Tempo</h1>
+							<div id="category-range">x to x BPM</div>
+							<div id="category-description"
+								>Estimated tempo of a track in beats per minute
+								(BPM).</div
+							>
+						</div>
+						<div class="label-graph-text" id="category-valance">
+							<h1 id="category-name">Valance</h1>
+							<div id="category-range">0 to 100%</div>
+							<div id="category-description"
+								>Higher valence tracks sound more positive (e.g.
+								happy, euphoric), while tracks with low valence
+								sound more negative (e.g. sad, angry).</div
+							>
+						</div>
+						<div class="label-graph-text" id="category-duration">
+							<h1 id="category-name">Duration</h1>
+							<div id="category-range">x to x minutes</div>
+							<div id="category-description"
+								>Duration of the song in minutes.</div
+							>
+						</div>
+					</div>
+				</div>
 
-                    <div class="label-graph-text" id="category-dancibility">
-                        <h1 id="category-name">Dancibility</h1>
-                        <div id="category-range">0 to 100%</div>
-                        <div id="category-description">Strength and regularity of the beat.</div>
-                    </div>
-                    <div class="label-graph-text" id="category-energy">
-                        <h1 id="category-name">Energy</h1>
-                        <div id="category-range">0 to 100%</div>
-                        <div id="category-description">Perceptual measure of intensity and activity.</div>
-                    </div>
-                    <div class="label-graph-text" id="category-loudness">
-                        <h1 id="category-name">Loudness</h1>
-                        <div id="category-range">-60db to 60db</div>
-                        <div id="category-description">Primary psychological correlate of physical strength (amplitude)</div>
-                    </div>
-                    <div class="label-graph-text" id="category-liveness">
-                        <h1 id="category-name">Liveness</h1>
-                        <div id="category-range">0 to 100%</div>
-                        <div id="category-description">A value above 0.8 provides strong likelihood that the track is live.</div>
-                    </div>
-                    <div class="label-graph-text" id="category-tempo">
-                        <h1 id="category-name">Tempo</h1>
-                        <div id="category-range">x to x BPM</div>
-                        <div id="category-description">Estimated tempo of a track in beats per minute (BPM).</div>
-                    </div>
-                    <div class="label-graph-text" id="category-valance">
-                        <h1 id="category-name">Valance</h1>
-                        <div id="category-range">0 to 100%</div>
-                        <div id="category-description">Higher valence tracks sound more positive (e.g. happy, euphoric), while tracks with low valence sound more negative (e.g. sad, angry).</div>
-                    </div>
-                    <div class="label-graph-text" id="category-duration">
-                        <h1 id="category-name">Duration</h1>
-                        <div id="category-range">x to x minutes</div>
-                        <div id="category-description">Duration of the song in minutes.</div>
-                    </div>
-                </div>
+				<!-- Window 3 - About and Credits -->
+				<div class="window3" id="window-3">
+					<div class="grid">
+						<div id="about-col1">
+							<p class="p-large">
+								An audio fingerprint is a condensed digital
+								summary of an audio signal, generated by
+								extracting relevant features of audio content.
+								In this project we attempt to visulize the sonic
+								fingerprint of songs over the last 10 decades.
+								The data from the tracks sonic fingerprint is
+								generated with Spotify’s streaming service
+								algorithms for the recommendation of songs.
+								<br /><br />
+								...
+							</p>
 
-            </div>
+							<p class="label-large">DATASET</p>
+							<a
+								class="p-large external-link"
+								href="https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks?select=tracks.csv"
+								>Spotify Dataset 1921-2020, 600k+ Tracks ↗</a
+							>
+						</div>
 
-            <!-- Window 3 - About and Credits -->
-            <div class="window3" id="window-3">
-                <div class="grid">
-                    <div id="about-col1">
-                        <p class="p-large">
-                            An audio fingerprint is a condensed digital summary of an audio signal, generated by extracting relevant features
-                            of audio content. In this project we attempt to visulize the sonic fingerprint of songs over the last 10 decades.
-                            The data from the tracks sonic fingerprint is generated with Spotify’s streaming service algorithms for the
-                            recommendation of songs.
-                            <br><br>
-                            ...
-                        </p>
-                        
-                        <p class="label-large">DATASET</p>
-                        <a class="p-large external-link"  href="https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks?select=tracks.csv">Spotify Dataset 1921-2020, 600k+ Tracks ↗</a>
-                    </div>
+						<div id="about-col2">
+							<p class="label-small" style="margin-top: 0"
+								>DEVELOPED BY</p
+							>
+							<p class="p-small">
+								<a
+									class="external-link"
+									href="https://alexandraoliveira.pt/"
+									target="_blank"
+									>Alexandra Oliveira</a
+								><br />
+								<a
+									class="external-link"
+									href="mailto:apoliveira@student.dei.uc.pt"
+									><i>apoliveira@student.dei.uc.pt</i></a
+								> </p
+							><br />
+							<p class="p-small">
+								<a
+									class="external-link"
+									href="https://alexandraoliveira.pt/"
+									target="_blank"
+									>Jasper Doe</a
+								><br />
+								<a
+									class="external-link"
+									href="mailto:jasper@student.dei.uc.pt"
+									><i>jasper@student.dei.uc.pt</i></a
+								>
+							</p>
+							<p class="label-small">PROJECT CONTEXT</p><br />
+							<p class="p-small">Project 1 — Visualizing facts</p>
+							<p class="p-small">Information Visualization</p>
+							<p class="p-small">Master in Design+Multimedia</p>
+							<a
+								class="p-small external-link"
+								href="https://www.dei.uc.pt/mdm/"
+								target="_blank"
+								>DEI / FCTUC ↗</a
+							>
+							<br />
+							<br />
+							<p class="p-small">Catarina Maças</p>
+							<a
+								class="p-small external-link"
+								href="mailto:macas@dei.uc.pt"
+								><i>macas@dei.uc.pt</i></a
+							>
+							<br />
+							<br />
+							<p class="p-small">Evgheni Polisciuc</p>
+							<a
+								class="p-small external-link"
+								href="mailto:evgheni@dei.uc.pt"
+								><i>evgheni@dei.uc.pt</i></a
+							>
 
-                    <div id="about-col2">
-                        <p class="label-small"  style="margin-top: 0">DEVELOPED BY</p>
-                            <p class="p-small">
-                                <a class="external-link" href="https://alexandraoliveira.pt/" target="_blank">Alexandra Oliveira</a><br>
-                                <a class="external-link" href="mailto:apoliveira@student.dei.uc.pt"><i>apoliveira@student.dei.uc.pt</i></a>
-                            </p><br>
-                            <p class="p-small">
-                                <a class="external-link" href="https://alexandraoliveira.pt/" target="_blank">Jasper Doe</a><br>
-                                <a class="external-link" href="mailto:jasper@student.dei.uc.pt"><i>jasper@student.dei.uc.pt</i></a>
-                            </p>
-                        <p class="label-small">PROJECT CONTEXT</p><br>
-                        <p class="p-small">Project 1 — Visualizing facts</p>
-                        <p class="p-small">Information Visualization</p>
-                        <p class="p-small">Master in Design+Multimedia</p>
-                        <a class="p-small external-link" href="https://www.dei.uc.pt/mdm/" target="_blank">DEI / FCTUC ↗</a>
-                        <br>
-                        <br>
-                        <p class="p-small">Catarina Maças</p>
-                        <a class="p-small external-link" href="mailto:macas@dei.uc.pt"><i>macas@dei.uc.pt</i></a>
-                        <br>
-                        <br>
-                        <p class="p-small">Evgheni Polisciuc</p>
-                        <a class=" p-small external-link" href="mailto:evgheni@dei.uc.pt"><i>evgheni@dei.uc.pt</i></a>
+							<p class="label-small">YEAR</p>
+							<p class="p-small">October 2022</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                        <p class="label-small">YEAR</p>
-                        <p class="p-small">October 2022</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div id = "mobile">
-        <h2>(musicTrack)</h2>
-        <p class="p-small"> Sorry, this website is not available for the current window size.</p>
-    </div>
-
-	<script src="js/script.js"></script>
-  </body>
+		<div id="mobile">
+			<h2>(musicTrack)</h2>
+			<p class="p-small">
+				Sorry, this website is not available for the current window
+				size.</p
+			>
+		</div>
+		<script src="js/animations.js"></script>
+	</body>
 </html>
