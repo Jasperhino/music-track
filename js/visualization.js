@@ -62,7 +62,7 @@ function useData(data) {
 		name: track.name,
 		artists: track.artists,
 		tempo: tempoScale(track.tempo),
-		durtion: durationScale(track.duration),
+		duration: durationScale(track.duration),
 		loudness: loudnessScale(track.loudness),
 		year: new Date(track.release_date).getFullYear(),
 		danceability: track.danceability,
@@ -104,12 +104,22 @@ function useData(data) {
 function radar_box_plot(data, container_id, width, height, scale = 200) {
 	const categories = [
 		'tempo',
-		'durtion',
+		'duration',
 		'loudness',
 		'danceability',
 		'energy',
 		'valence',
 		'acousticness',
+	];
+
+	const ranges = [
+		'x to x BPM',
+		'x to x minutes',
+		'-60db to 60db',
+		'0 to 100%',
+		'0 to 100&',
+		'0 to 100%',
+		'0 to 100d',
 	];
 
 	const svg = d3
@@ -166,8 +176,20 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 	const labelArcs = categories.map((category, i) => [
 		category,
 		{
-			innerRadius: 1.1 * scale,
-			outerRadius: 1.1 * scale,
+			// innerRadius: 1.08 * scale,
+			// outerRadius: 1.08 * scale,
+			 innerRadius: 1.14 * scale,
+			 outerRadius: 1.14 * scale,
+			startAngle: ((Math.PI * 2) / 7) * i,
+			endAngle: ((Math.PI * 2) / 7) * (i + 1),
+		},
+	]);
+
+	const sublabelArcs = ranges.map((range, i) => [
+		range,
+		{
+			innerRadius: 1.05 * scale,
+			outerRadius: 1.05 * scale,
 			startAngle: ((Math.PI * 2) / 7) * i,
 			endAngle: ((Math.PI * 2) / 7) * (i + 1),
 		},
@@ -196,7 +218,7 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 	svg.selectAll('.quantileArc')
 		.data(quantileArcs)
 		.join('path')
-		.attr('class', 'arc')
+		.attr('clas1.1s', 'arc')
 		.attr('fill', '#28C85030')
 		.attr('d', (a) => arc(a));
 
@@ -235,6 +257,27 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.append('textPath') //append a textPath to the text element
 		.attr('xlink:href', (a) => `#label-${a[0]}`) //place the ID of the path here
 		.attr('fill', 'white')
+		.attr('font-size', "1.2em")
+		.attr('font-family', 'Agrandir-Grand-Light')
 		.text((a) => a[0]);
-	//This will get stashed
+
+	svg.selectAll('.sublabelArcs')
+		.data(sublabelArcs)
+		.join('path')
+		.attr('id', (a) => `sublabel-${a[0]}`)
+		.attr('class', 'arc')
+		//.attr('stroke', 'red')
+		.attr('stroke-width', 5)
+		.attr('d', (a) => arc(a[1]));
+
+	svg.selectAll('.sublabels')
+		.data(sublabelArcs)
+		.enter()
+		.append('text')
+		.append('textPath') //append a textPath to the text element
+		.attr('xlink:href', (a) => `#sublabel-${a[0]}`) //place the ID of the path here
+		.attr('fill', '#28C850')
+		.attr('font-size', "0.8em")
+		.attr('font-family', 'Agrandir-Grand-Light')
+		.text((a) => a[0])
 }
