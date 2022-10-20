@@ -1,4 +1,5 @@
 import { arc } from 'https://cdn.skypack.dev/d3-shape@3';
+import { path } from 'https://cdn.skypack.dev/d3-path@3';
 
 d3.csv('data/tracks.csv', (track) =>
 	d3.autoType({
@@ -113,6 +114,8 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.append('svg')
 		.attr('viewBox', [-width / 2, -height / 2, width, height]);
 
+	const arc = d3.arc();
+
 	let quantileArcs = [];
 	let medianArcs = [];
 	let minArcs = [];
@@ -139,32 +142,31 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 			startAngle: sectorAngle * i,
 			endAngle: sectorAngle * (i + 1),
 		});
+
+		const offset = -Math.PI / 2;
+
 		const min = d3.min(values);
-		const num_dashes = Math.floor(21) / 2 + 1;
+		const minPath = d3.path();
+		minPath.arc(
+			0,
+			0,
+			min * scale,
+			sectorAngle * i + offset,
+			sectorAngle * (i + 1) + offset
+		);
+		minArcs.push(minPath);
 
-		for (let d = 0; d < num_dashes; d++) {
-			if (d % 2 == 0) continue;
-			minArcs.push({
-				innerRadius: min * scale,
-				outerRadius: min * scale,
-				startAngle: sectorAngle * i + (d * sectorAngle) / num_dashes,
-				endAngle:
-					sectorAngle * (i + 1) +
-					((d + 1) * sectorAngle) / num_dashes,
-			});
-
-			const max = d3.max(values);
-
-			maxArcs.push({
-				innerRadius: max * scale,
-				outerRadius: max * scale,
-				startAngle: (sectorAngle * i) / num_dashes,
-				endAngle: (sectorAngle * (i + 1)) / num_dashes,
-			});
-		}
+		const max = d3.max(values);
+		const maxPath = d3.path();
+		maxPath.arc(
+			0,
+			0,
+			max * scale,
+			sectorAngle * i + offset,
+			sectorAngle * (i + 1) + offset
+		);
+		maxArcs.push(maxPath);
 	});
-
-	const arc = d3.arc();
 
 	const dataColor = '#28C850';
 	const axisColor = '#303030';
@@ -178,15 +180,14 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.attr('stroke', axisColor)
 		.attr('stroke-width', 1);
 
-	svg.selectAll('.minArc')
+	svg.selectAll('.boundaryArc')
 		.data(minArcs.concat(maxArcs))
 		.join('path')
-		.attr('class', 'arc')
 		.attr('fill', 'none')
 		.attr('stroke', dataColor)
-		//.attr('stroke-dasharray', '1, 5')
+		.attr('stroke-dasharray', '1, 3')
 		.attr('stroke-width', 1)
-		.attr('d', (a) => arc(a));
+		.attr('d', (p) => p);
 
 	svg.selectAll('.quantileArc')
 		.data(quantileArcs)
