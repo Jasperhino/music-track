@@ -47,6 +47,14 @@ svg {
     height: 100%;
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    }
+
 h1, h2, h3, h4 {
     font-weight: normal !important;
     font-family: 'Agrandir-Grand-Light', sans-serif;

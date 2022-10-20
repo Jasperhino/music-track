@@ -6,7 +6,7 @@ d3.csv('data/tracks.csv', (track) =>
 		name: track.name,
 		release_date: track.release_date,
 		duration: track.duration_ms,
-		danceability: track.danceability,
+		//danceability: track.danceability,
 		energy: track.energy,
 		loudness: track.loudness,
 		liveness: track.liveness,
@@ -74,7 +74,6 @@ function useData(data) {
 	}));
 
 	scaled_data.sort((a, b) => d3.descending(a.popularity, b.popularity));
-
 	const ticks = d3
 		.scaleTime()
 		.domain(d3.extent(scaled_data, (d) => d.year))
@@ -95,86 +94,83 @@ function useData(data) {
 	const width = 500;
 	const height = 500;
 	console.log(decade_bins);
-	for (const [i, bin] of decade_bins.entries()) {
-		console.log(`small-multiple-${i + 1}`);
-		radar_box_plot(bin, `small-multiple-${i + 1}`, width, height);
-	}
-}
 
-function radar_box_plot(data, container_id, width, height, scale = 200) {
 	const categories = [
 		'tempo',
 		'durtion',
 		'loudness',
-		'danceability',
 		'energy',
 		'valence',
 		'acousticness',
 	];
 
-	const svg = d3
-		.select(`#${container_id}`)
-		.append('svg')
-		.attr('viewBox', [-width / 2, -height / 2, width, height]);
+	categories.forEach((category, i) => {
+		const svg = d3
+			.select('#visualization')
+			.append('svg')
+			.attr('id', category)
+			.attr('viewBox', [-width / 2, -height / 2, width, height]);
 
-	const quantileArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
+		radar_box_plot(svg, decade_bins, category, width, height);
+	});
+}
+
+function radar_box_plot(svg, bins, category, width, height, scale = 200) {
+	let quantileArcs = [];
+	let medianArcs = [];
+	let minArcs = [];
+	let maxArcs = [];
+	let labelArcs = [];
+
+	bins.forEach((bin, i) => {
+		const values = bin.map((d) => d[category]);
+		const sectorAngle = (Math.PI * 2) / bins.length;
+
 		const q1 = d3.quantile(values, 0.25);
 		const q3 = d3.quantile(values, 0.75);
-		return {
+
+		quantileArcs.push({
 			innerRadius: q1 * scale,
 			outerRadius: q3 * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
 
-	const medianArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
 		const median = d3.median(values);
-		return {
+		medianArcs.push({
 			innerRadius: median * scale,
 			outerRadius: median * scale,
 			value: median,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
 
-	const minArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
 		const min = d3.min(values);
-		return {
+		minArcs.push({
 			innerRadius: min * scale,
 			outerRadius: min * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
 
-	const maxArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
 		const max = d3.max(values);
-		return {
+		maxArcs.push({
 			innerRadius: max * scale,
 			outerRadius: max * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
 
-	const labelArcs = categories.map((category, i) => [
-		category,
-		{
+		labelArcs.push({
 			innerRadius: 1.1 * scale,
 			outerRadius: 1.1 * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		},
-	]);
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
+	});
 
 	const arc = d3.arc();
-
+	//Todo add groups
 	svg.selectAll('.minArc')
 		.data(minArcs)
 		.join('path')
@@ -208,13 +204,14 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.attr('stroke-width', 5)
 		.attr('d', (a) => arc(a));
 
-	svg.selectAll('.axis')
-		.data(categories)
+	const tickSize = 10;
+	svg.selectAll('.ticks')
+		.data(bins)
 		.enter()
 		.append('line')
-		.attr('x1', 0)
+		.attr('x1', scale - tickSize)
+		.attr('y1', scale - tickSize)
 		.attr('x2', 0)
-		.attr('y1', 0)
 		.attr('y2', scale)
 		.attr('transform', (d, i) => `rotate(${(i * 360) / 7 + 360 / 14})`)
 		.attr('stroke', 'white');
@@ -236,5 +233,4 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.attr('xlink:href', (a) => `#label-${a[0]}`) //place the ID of the path here
 		.attr('fill', 'white')
 		.text((a) => a[0]);
-	//This will get stashed
 }
