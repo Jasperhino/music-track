@@ -6,15 +6,12 @@ d3.csv('data/tracks.csv', (track) =>
 		name: track.name,
 		release_date: track.release_date,
 		duration: track.duration_ms,
-		danceability: track.danceability,
+		popularity: track.popularity,
 		energy: track.energy,
 		loudness: track.loudness,
-		liveness: track.liveness,
 		acousticness: track.acousticness,
 		valence: track.valence,
 		tempo: track.tempo,
-		popularity: track.popularity,
-		artists: track.artists,
 	})
 ).then(useData);
 
@@ -106,20 +103,9 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		'tempo',
 		'duration',
 		'loudness',
-		'danceability',
 		'energy',
 		'valence',
 		'acousticness',
-	];
-
-	const ranges = [
-		'x to x BPM',
-		'x to x minutes',
-		'-60db to 60db',
-		'0 to 100%',
-		'0 to 100&',
-		'0 to 100%',
-		'0 to 100d',
 	];
 
 	const svg = d3
@@ -127,98 +113,85 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.append('svg')
 		.attr('viewBox', [-width / 2, -height / 2, width, height]);
 
-	const quantileArcs = categories.map((category, i) => {
+	let quantileArcs = [];
+	let medianArcs = [];
+	let minArcs = [];
+	let maxArcs = [];
+
+	categories.forEach((category, i) => {
 		const values = data.map((d) => d[category]);
+		const sectorAngle = (Math.PI * 2) / categories.length;
 		const q1 = d3.quantile(values, 0.25);
 		const q3 = d3.quantile(values, 0.75);
-		return {
+
+		quantileArcs.push({
 			innerRadius: q1 * scale,
 			outerRadius: q3 * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
 
-	const medianArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
 		const median = d3.median(values);
-		return {
+		medianArcs.push({
 			innerRadius: median * scale,
 			outerRadius: median * scale,
 			value: median,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
-
-	const minArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
+			startAngle: sectorAngle * i,
+			endAngle: sectorAngle * (i + 1),
+		});
 		const min = d3.min(values);
-		return {
-			innerRadius: min * scale,
-			outerRadius: min * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
+		const num_dashes = Math.floor(21) / 2 + 1;
+
+		for (let d = 0; d < num_dashes; d++) {
+			if (d % 2 == 0) continue;
+			minArcs.push({
+				innerRadius: min * scale,
+				outerRadius: min * scale,
+				startAngle: sectorAngle * i + (d * sectorAngle) / num_dashes,
+				endAngle:
+					sectorAngle * (i + 1) +
+					((d + 1) * sectorAngle) / num_dashes,
+			});
+
+			const max = d3.max(values);
+
+			maxArcs.push({
+				innerRadius: max * scale,
+				outerRadius: max * scale,
+				startAngle: (sectorAngle * i) / num_dashes,
+				endAngle: (sectorAngle * (i + 1)) / num_dashes,
+			});
+		}
 	});
-
-	const maxArcs = categories.map((category, i) => {
-		const values = data.map((d) => d[category]);
-		const max = d3.max(values);
-		return {
-			innerRadius: max * scale,
-			outerRadius: max * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		};
-	});
-
-	const labelArcs = categories.map((category, i) => [
-		category,
-		{
-			// innerRadius: 1.08 * scale,
-			// outerRadius: 1.08 * scale,
-			 innerRadius: 1.14 * scale,
-			 outerRadius: 1.14 * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		},
-	]);
-
-	const sublabelArcs = ranges.map((range, i) => [
-		range,
-		{
-			innerRadius: 1.05 * scale,
-			outerRadius: 1.05 * scale,
-			startAngle: ((Math.PI * 2) / 7) * i,
-			endAngle: ((Math.PI * 2) / 7) * (i + 1),
-		},
-	]);
 
 	const arc = d3.arc();
 
-	svg.selectAll('.minArc')
-		.data(minArcs)
-		.join('path')
-		.attr('class', 'arc')
-		.attr('stroke-dasharray', '1,5')
-		.attr('fill', 'none')
-		.attr('stroke', 'white')
-		.attr('d', (a) => arc(a));
+	const dataColor = '#28C850';
+	const axisColor = '#303030';
+	const backgroundColor = '#101010';
 
-	svg.selectAll('.maxArc')
-		.data(maxArcs)
+	svg.append('circle')
+		.attr('r', scale)
+		.attr('cx', 0)
+		.attr('cy', 0)
+		.attr('fill', backgroundColor)
+		.attr('stroke', axisColor)
+		.attr('stroke-width', 1);
+
+	svg.selectAll('.minArc')
+		.data(minArcs.concat(maxArcs))
 		.join('path')
 		.attr('class', 'arc')
-		.attr('stroke-dasharray', '1,5')
 		.attr('fill', 'none')
-		.attr('stroke', 'white')
+		.attr('stroke', dataColor)
+		//.attr('stroke-dasharray', '1, 5')
+		.attr('stroke-width', 1)
 		.attr('d', (a) => arc(a));
 
 	svg.selectAll('.quantileArc')
 		.data(quantileArcs)
 		.join('path')
-		.attr('clas1.1s', 'arc')
+		.attr('class', 'arc')
 		.attr('fill', '#28C85030')
 		.attr('d', (a) => arc(a));
 
@@ -226,58 +199,18 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.data(medianArcs)
 		.join('path')
 		.attr('class', 'arc')
-		.attr('stroke', '#28C850')
+		.attr('stroke', dataColor)
 		.attr('stroke-width', 5)
 		.attr('d', (a) => arc(a));
 
 	svg.selectAll('.axis')
 		.data(categories)
-		.enter()
-		.append('line')
+		.join('line')
 		.attr('x1', 0)
 		.attr('x2', 0)
 		.attr('y1', 0)
 		.attr('y2', scale)
-		.attr('transform', (d, i) => `rotate(${(i * 360) / 7 + 360 / 14})`)
-		.attr('stroke', 'white');
-
-	svg.selectAll('.labelArcs')
-		.data(labelArcs)
-		.join('path')
-		.attr('id', (a) => `label-${a[0]}`)
-		.attr('class', 'arc')
-		//.attr('stroke', 'red')
-		.attr('stroke-width', 5)
-		.attr('d', (a) => arc(a[1]));
-
-	svg.selectAll('.labels')
-		.data(labelArcs)
-		.enter()
-		.append('text')
-		.append('textPath') //append a textPath to the text element
-		.attr('xlink:href', (a) => `#label-${a[0]}`) //place the ID of the path here
-		.attr('fill', 'white')
-		.attr('font-size', "1.2em")
-		.attr('font-family', 'Agrandir-Grand-Light')
-		.text((a) => a[0]);
-
-	svg.selectAll('.sublabelArcs')
-		.data(sublabelArcs)
-		.join('path')
-		.attr('id', (a) => `sublabel-${a[0]}`)
-		.attr('class', 'arc')
-		//.attr('stroke', 'red')
-		.attr('stroke-width', 5)
-		.attr('d', (a) => arc(a[1]));
-
-	svg.selectAll('.sublabels')
-		.data(sublabelArcs)
-		.enter()
-		.append('text')
-		.append('textPath') //append a textPath to the text element
-		.attr('xlink:href', (a) => `#sublabel-${a[0]}`) //place the ID of the path here
-		.attr('fill', '#28C850')
-		.attr('font-size', "0.8em")
-		.attr('font-family', 'Agrandir-Grand-Light')
-		.text((a) => a[0])
+		.attr('transform', (d, i) => `rotate(${(i * 360) / categories.length})`)
+		.attr('stroke', axisColor)
+		.attr('stroke-width', 1);
 }
