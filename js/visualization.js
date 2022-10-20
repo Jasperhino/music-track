@@ -1,7 +1,7 @@
 import { arc } from 'https://cdn.skypack.dev/d3-shape@3';
 import { path } from 'https://cdn.skypack.dev/d3-path@3';
 
-d3.csv('data/tracks.csv', (track) =>
+d3.csv('data/tracks_filtered.csv', (track) =>
 	d3.autoType({
 		id: track.id,
 		name: track.name,
