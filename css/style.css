@@ -166,7 +166,7 @@ header {
 }
 
 
-#window-1 {    
+.main {    
     height: 100%;
     margin-top:10px;
     padding: var(--main-margin);
