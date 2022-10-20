@@ -404,7 +404,7 @@ header {
 #mobile {    display: none;  }
 
 svg {
-    animation: rotation 200s infinite linear;
+    /*animation: rotation 200s infinite linear;*/
 }
 
 
