@@ -249,35 +249,4 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		//.attr('stroke', 'red')
 		.attr('stroke-width', 5)
 		.attr('d', (a) => arc(a[1]));
-
-	svg.selectAll('.labels')
-		.data(labelArcs)
-		.enter()
-		.append('text')
-		.append('textPath') //append a textPath to the text element
-		.attr('xlink:href', (a) => `#label-${a[0]}`) //place the ID of the path here
-		.attr('fill', 'white')
-		.attr('font-size', "1.2em")
-		.attr('font-family', 'Agrandir-Grand-Light')
-		.text((a) => a[0]);
-
-	svg.selectAll('.sublabelArcs')
-		.data(sublabelArcs)
-		.join('path')
-		.attr('id', (a) => `sublabel-${a[0]}`)
-		.attr('class', 'arc')
-		//.attr('stroke', 'red')
-		.attr('stroke-width', 5)
-		.attr('d', (a) => arc(a[1]));
-
-	svg.selectAll('.sublabels')
-		.data(sublabelArcs)
-		.enter()
-		.append('text')
-		.append('textPath') //append a textPath to the text element
-		.attr('xlink:href', (a) => `#sublabel-${a[0]}`) //place the ID of the path here
-		.attr('fill', '#28C850')
-		.attr('font-size', "0.8em")
-		.attr('font-family', 'Agrandir-Grand-Light')
-		.text((a) => a[0])
 }
