@@ -10,6 +10,7 @@ d3.csv('data/tracks_filtered.csv', (track) =>
 		acousticness: track.acousticness,
 		valence: track.valence,
 		tempo: track.tempo,
+		decade: track.decade,
 	})
 ).then(useData);
 
@@ -59,6 +60,7 @@ function useData(data) {
 		tempo: tempoScale(track.tempo),
 		duration: durationScale(track.duration),
 		loudness: loudnessScale(track.loudness),
+		decade: parseInt(track.decade),
 		year: new Date(track.release_date).getFullYear(),
 		danceability: track.danceability,
 		acousticness: track.acousticness,
@@ -70,29 +72,35 @@ function useData(data) {
 
 	scaled_data.sort((a, b) => d3.descending(a.popularity, b.popularity));
 
-	const ticks = d3
-		.scaleTime()
-		.domain(d3.extent(scaled_data, (d) => d.year))
-		.ticks(10)
-		.slice(2, -1);
-
-	console.log('ticks', ticks);
-	const bins = d3
-		.bin()
-		.value((d) => d.year)
-		.thresholds(ticks)(scaled_data);
-
-	const top100bins = bins.map((bin) => bin.slice(0, 100));
-	const decade_bins = top100bins.slice(1, top100bins.length);
-	console.log('bins', decade_bins);
+	const bins = d3.groups(scaled_data, (d) => d.decade);
+	console.log(bins);
+	const top100bins = bins.map(([name, bin]) => [name, bin.slice(0, 100)]);
+	top100bins.sort((a, b) => d3.descending(parseInt(a[0]), parseInt(b[0])));
+	console.log(top100bins);
 
 	//Plot
 	const width = 400;
 	const height = 400;
-	console.log(decade_bins);
-	for (const [i, bin] of decade_bins.entries()) {
-		console.log(`small-multiple-${i + 1}`);
-		radar_box_plot(bin, `small-multiple-${i + 1}`, width, height);
+
+	for (const [name, bin] of top100bins) {
+		console.log(`Created small-multiple-${name}`);
+		const container = d3
+			.select('#small-multiples-container')
+			.append('div')
+			.attr('class', 'small-multiples');
+		container
+			.append('div')
+			.attr('class', 'sm-graph-container')
+			.attr('id', `small-multiple-${name}`);
+		container
+			.append('div')
+			.attr('class', 'sm-labels-container')
+			.append('h3')
+			.text(`${name}s`)
+			.append('h4')
+			.text(`(${name} - ${name + 9})`);
+
+		radar_box_plot(bin, `small-multiple-${name}`, width, height);
 	}
 }
 
@@ -171,7 +179,7 @@ function radar_box_plot(data, container_id, width, height, scale = 150) {
 
 	const svg = d3
 		.select(`#${container_id}`)
-		.append('svg')
+		.insert('svg')
 		.attr('width', width)
 		.attr('height', height)
 		.attr('viewBox', [-width / 2, -height / 2, width, height]);

@@ -18,8 +18,8 @@ df = df.groupby('decade').apply(lambda x: x.sort_values('popularity', ascending=
 df = df.reset_index(drop=True)
 df
 # %%
-# filter all songs with decade < 1950
-df = df[df['decade'] >= 1950]
+# filter all songs with decade < 1970
+df = df[df['decade'] >= 1970]
 df
 # %%
 # save to csv

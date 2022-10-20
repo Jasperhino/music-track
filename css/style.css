@@ -296,13 +296,6 @@ header {
     grid-template-columns: repeat(3, 1fr);
 }
 
-.small-multiples {
-
-}
-
-.sm-graph-container {
-}
-
 .sm-labels-container {
     display: flex;
     flex-direction: column;
