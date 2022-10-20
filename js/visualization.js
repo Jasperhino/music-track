@@ -90,8 +90,8 @@ function useData(data) {
 	console.log('bins', decade_bins);
 
 	//Plot
-	const width = 500;
-	const height = 500;
+	const width = 400;
+	const height = 400;
 	console.log(decade_bins);
 	for (const [i, bin] of decade_bins.entries()) {
 		console.log(`small-multiple-${i + 1}`);
@@ -99,7 +99,7 @@ function useData(data) {
 	}
 }
 
-function radar_box_plot(data, container_id, width, height, scale = 200) {
+function radar_box_plot(data, container_id, width, height, scale = 150) {
 	const categories = [
 		'tempo',
 		'duration',
@@ -109,12 +109,15 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		'acousticness',
 	];
 
-	const svg = d3
-		.select(`#${container_id}`)
-		.append('svg')
-		.attr('viewBox', [-width / 2, -height / 2, width, height]);
+	const colorScale = d3.scaleLinear().domain([0, categories.length]);
+	const categoryColor = (c) => d3.interpolateWarm(colorScale(c));
 
-	const arc = d3.arc();
+	const dataColor = '#28C850';
+	const axisColor = '#303030';
+	const backgroundColor = '#101010';
+	const centerColor = '#1A1A1A';
+	const centerOffset = 0.1 * scale;
+	const rotationOffset = -Math.PI / 2;
 
 	let quantileArcs = [];
 	let medianArcs = [];
@@ -128,31 +131,29 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		const q3 = d3.quantile(values, 0.75);
 
 		quantileArcs.push({
-			innerRadius: q1 * scale,
-			outerRadius: q3 * scale,
+			innerRadius: q1 * scale + centerOffset,
+			outerRadius: q3 * scale + centerOffset,
 			startAngle: sectorAngle * i,
 			endAngle: sectorAngle * (i + 1),
 		});
 
 		const median = d3.median(values);
 		medianArcs.push({
-			innerRadius: median * scale,
-			outerRadius: median * scale,
+			innerRadius: median * scale + centerOffset,
+			outerRadius: median * scale + centerOffset,
 			value: median,
 			startAngle: sectorAngle * i,
 			endAngle: sectorAngle * (i + 1),
 		});
-
-		const offset = -Math.PI / 2;
 
 		const min = d3.min(values);
 		const minPath = d3.path();
 		minPath.arc(
 			0,
 			0,
-			min * scale,
-			sectorAngle * i + offset,
-			sectorAngle * (i + 1) + offset
+			min * scale + centerOffset,
+			sectorAngle * i + rotationOffset,
+			sectorAngle * (i + 1) + rotationOffset
 		);
 		minArcs.push(minPath);
 
@@ -161,22 +162,34 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		maxPath.arc(
 			0,
 			0,
-			max * scale,
-			sectorAngle * i + offset,
-			sectorAngle * (i + 1) + offset
+			max * scale + centerOffset,
+			sectorAngle * i + rotationOffset,
+			sectorAngle * (i + 1) + rotationOffset
 		);
 		maxArcs.push(maxPath);
 	});
 
-	const dataColor = '#28C850';
-	const axisColor = '#303030';
-	const backgroundColor = '#101010';
+	// Drawing
+	const arc = d3.arc();
+
+	const svg = d3
+		.select(`#${container_id}`)
+		.append('svg')
+		.attr('width', width)
+		.attr('height', height)
+		.attr('viewBox', [-width / 2, -height / 2, width, height]);
 
 	svg.append('circle')
-		.attr('r', scale)
+		.attr('r', scale + centerOffset)
 		.attr('cx', 0)
 		.attr('cy', 0)
-		.attr('fill', backgroundColor)
+		.attr('fill', backgroundColor);
+
+	svg.append('circle')
+		.attr('r', centerOffset)
+		.attr('cx', 0)
+		.attr('cy', 0)
+		.attr('fill', centerColor)
 		.attr('stroke', axisColor)
 		.attr('stroke-width', 1);
 
@@ -184,7 +197,7 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.data(minArcs.concat(maxArcs))
 		.join('path')
 		.attr('fill', 'none')
-		.attr('stroke', dataColor)
+		.attr('stroke', (_, i) => categoryColor(i))
 		.attr('stroke-dasharray', '1, 3')
 		.attr('stroke-width', 1)
 		.attr('d', (p) => p);
@@ -193,14 +206,16 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.data(quantileArcs)
 		.join('path')
 		.attr('class', 'arc')
-		.attr('fill', '#28C85030')
+		.attr('fill', (_, i) =>
+			d3.color(categoryColor(i)).copy({ opacity: 0.2 })
+		)
 		.attr('d', (a) => arc(a));
 
 	svg.selectAll('.medianArc')
 		.data(medianArcs)
 		.join('path')
 		.attr('class', 'arc')
-		.attr('stroke', dataColor)
+		.attr('stroke', (_, i) => categoryColor(i))
 		.attr('stroke-width', 5)
 		.attr('d', (a) => arc(a));
 
@@ -209,8 +224,8 @@ function radar_box_plot(data, container_id, width, height, scale = 200) {
 		.join('line')
 		.attr('x1', 0)
 		.attr('x2', 0)
-		.attr('y1', 0)
-		.attr('y2', scale)
+		.attr('y1', centerOffset)
+		.attr('y2', scale + centerOffset)
 		.attr('transform', (d, i) => `rotate(${(i * 360) / categories.length})`)
 		.attr('stroke', axisColor)
 		.attr('stroke-width', 1);
