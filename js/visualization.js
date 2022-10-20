@@ -1,6 +1,3 @@
-import { arc } from 'https://cdn.skypack.dev/d3-shape@3';
-import { path } from 'https://cdn.skypack.dev/d3-path@3';
-
 d3.csv('data/tracks_filtered.csv', (track) =>
 	d3.autoType({
 		id: track.id,
@@ -197,7 +194,7 @@ function radar_box_plot(data, container_id, width, height, scale = 150) {
 		.data(minArcs.concat(maxArcs))
 		.join('path')
 		.attr('fill', 'none')
-		.attr('stroke', (_, i) => categoryColor(i))
+		.attr('stroke', (_, i) => categoryColor(i % categories.length))
 		.attr('stroke-dasharray', '1, 3')
 		.attr('stroke-width', 1)
 		.attr('d', (p) => p);
