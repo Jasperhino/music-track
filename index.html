@@ -13,6 +13,12 @@
 			href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap"
 			rel="stylesheet" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css"
+			integrity="sha512-RvQxwf+3zJuNwl4e0sZjQeX7kUa3o82bDETpgVCH2RiwYSZVDdFJ7N/woNigN/ldyOOoKw8584jM4plQdt8bhA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer" />
 
 		<script
 			type="text/javascript"
@@ -21,6 +27,7 @@
 	</head>
 	<body>
 		<div id="web">
+
 			<header>
 				<div id="title-container">
 					<h1 id="description"
@@ -28,187 +35,97 @@
 					>
 				</div>
 			</header>
-
-			<main>
-				<div id="small-multiples-wrapper">
+			
+			<div class="layout">
+				<div class="visualization">
 					<div id="small-multiples-container"></div>
 				</div>
-			</main>
+				<div class="sidebar">
+					<div class="about">
+						<h2>Decade</h2>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Curabitur faucibus bibendum placerat. Cras mattis tortor non
+						massa ultrices lacinia. Duis sit amet maximus magna. Duis ac
+						erat eu neque laoreet ullamcorper quis in tortor. Vivamus
+						tincidunt hendrerit ante ac consectetur. Suspendisse
+						elementum efficitur ligula, sit amet fermentum dolor egestas
+						a. Integer nec bibendum felis. Morbi lacinia venenatis
+						aliquet. Vivamus odio arcu, sagittis sed sollicitudin non,
+						bibendum vitae ante. Nam sit amet ligula nisi. Vestibulum
+						suscipit, sapien at cursus sollicitudin, mi erat tincidunt
+						leo, nec euismod elit justo placerat mi. Donec fringilla
+						pretium justo vitae ultricies. Nullam bibendum lobortis
+						ligula, eu fringilla dui porta sit amet. Vestibulum lorem
+						lacus, convallis eget diam et, rutrum pulvinar orci. Integer
+						maximus in mi et blandit. Donec eleifend aliquet sodales. In
+						nec enim vitae nulla imperdiet blandit ac ut velit. Sed
+						tellus justo, fringilla sed augue id, placerat finibus
+						metus. Quisque aliquam molestie nibh, id tristique massa
+						commodo pretium. Suspendisse libero lacus, venenatis eu
+						vestibulum id, gravida eu arcu. Ut in dolor aliquam,
+						placerat mi at, pulvinar eros. In posuere porta diam, vitae
+						ullamcorper est convallis maximus. Suspendisse luctus
+						aliquam tortor sit amet iaculis. Morbi sollicitudin est sed
+						malesuada posuere. Interdum et malesuada fames ac ante ipsum
+						primis in faucibus. Mauris diam sem, commodo at ex id,
+						viverra congue libero. Aliquam consequat tellus neque, id
+						rutrum neque semper ut. Fusce rutrum nunc at pellentesque
+						pellentesque. Ut convallis felis id orci pretium aliquet at
+						vitae quam. Fusce sagittis enim vitae luctus rutrum.
+						Pellentesque habitant morbi tristique senectus et netus et
+						malesuada fames ac turpis egestas.
+	
+						<h2>Valence</h2>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Curabitur faucibus bibendum placerat. Cras mattis tortor non
+						massa ultrices lacinia. Duis sit amet maximus magna. Duis ac
+						erat eu neque laoreet ullamcorper quis in tortor. Vivamus
+						tincidunt hendrerit ante ac consectetur.
+	
+						<h2>Tempo</h2>
+						Suspendisse elementum efficitur ligula, sit amet fermentum
+						dolor egestas a. Integer nec bibendum felis. Morbi lacinia
+						venenatis aliquet. Vivamus odio arcu, sagittis sed
+						sollicitudin non, bibendum vitae ante. Nam sit amet ligula
+						nisi. Vestibulum suscipit, sapien at cursus sollicitudin, mi
+						erat tincidunt leo, nec euismod elit justo placerat mi.
+						Donec fringilla pretium justo vitae ultricies. Nullam
+						bibendum lobortis ligula, eu fringilla dui porta sit amet.
+						Vestibulum lorem lacus, convallis eget diam et, rutrum
+						pulvinar orci.
+	
+						<h2>Acousticness</h2>
+						Integer maximus in mi et blandit. Donec eleifend aliquet
+						sodales. In nec enim vitae nulla imperdiet blandit ac ut
+						velit. Sed tellus justo, fringilla sed augue id, placerat
+						finibus metus. Quisque aliquam molestie nibh, id tristique.
 
-			<div id="window-2and3">
-				<!-- Button to toggle between windows 2 and 3 -->
-				<div class="button-window" id="button-toggle-window-right"
-					>&rarr;</div
-				>
-				<div class="button-window" id="button-toggle-window-left"
-					>&larr;</div
-				>
-
-				<!-- Window 2 - Graph label: Single graph -->
-				<div id="window-2">
-					<div class="grid" id="label-graph-wrapper">
-						<div id="label-graph-container">
-							<img
-								src="assets/delete-later.png"
-								style="width: 100%" />
-						</div>
-
-						<!--
-                        category-dancibility
-                        category-energy
-                        category-loudness
-                        category-liveness
-                        category-tempo
-                        category-valance
-                        category-duration
-                    -->
-
-						<div class="label-graph-text" id="category-dancibility">
-							<h1 id="category-name">Dancibility</h1>
-							<div id="category-range">0 to 100%</div>
-							<div id="category-description"
-								>Strength and regularity of the beat.</div
-							>
-						</div>
-						<div class="label-graph-text" id="category-energy">
-							<h1 id="category-name">Energy</h1>
-							<div id="category-range">0 to 100%</div>
-							<div id="category-description"
-								>Perceptual measure of intensity and
-								activity.</div
-							>
-						</div>
-						<div class="label-graph-text" id="category-loudness">
-							<h1 id="category-name">Loudness</h1>
-							<div id="category-range">-60db to 60db</div>
-							<div id="category-description"
-								>Primary psychological correlate of physical
-								strength (amplitude)</div
-							>
-						</div>
-						<div class="label-graph-text" id="category-liveness">
-							<h1 id="category-name">Liveness</h1>
-							<div id="category-range">0 to 100%</div>
-							<div id="category-description"
-								>A value above 0.8 provides strong likelihood
-								that the track is live.</div
-							>
-						</div>
-						<div class="label-graph-text" id="category-tempo">
-							<h1 id="category-name">Tempo</h1>
-							<div id="category-range">x to x BPM</div>
-							<div id="category-description"
-								>Estimated tempo of a track in beats per minute
-								(BPM).</div
-							>
-						</div>
-						<div class="label-graph-text" id="category-valance">
-							<h1 id="category-name">Valance</h1>
-							<div id="category-range">0 to 100%</div>
-							<div id="category-description"
-								>Higher valence tracks sound more positive (e.g.
-								happy, euphoric), while tracks with low valence
-								sound more negative (e.g. sad, angry).</div
-							>
-						</div>
-						<div class="label-graph-text" id="category-duration">
-							<h1 id="category-name">Duration</h1>
-							<div id="category-range">x to x minutes</div>
-							<div id="category-description"
-								>Duration of the song in minutes.</div
-							>
-						</div>
+						<h2>Tempo</h2>
+						Suspendisse elementum efficitur ligula, sit amet fermentum
+						dolor egestas a. Integer nec bibendum felis. Morbi lacinia
+						venenatis aliquet. Vivamus odio arcu, sagittis sed
+						sollicitudin non, bibendum vitae ante. Nam sit amet ligula
+						nisi. Vestibulum suscipit, sapien at cursus sollicitudin, mi
+						erat tincidunt leo, nec euismod elit justo placerat mi.
+						Donec fringilla pretium justo vitae ultricies. Nullam
+						bibendum lobortis ligula, eu fringilla dui porta sit amet.
+						Vestibulum lorem lacus, convallis eget diam et, rutrum
+						pulvinar orci.
+	
+						<h2>Acousticness</h2>
+						Integer maximus in mi et blandit. Donec eleifend aliquet
+						sodales. In nec enim vitae nulla imperdiet blandit ac ut
+						velit. Sed tellus justo, fringilla sed augue id, placerat
+						finibus metus. Quisque aliquam molestie nibh, id tristique.
+					</div>
+					<div class="legend">
+						<div id="radar-legend"></div>
+						<div id="sector-legend"></div>
 					</div>
 				</div>
-
-				<!-- Window 3 - About and Credits -->
-				<div class="window3" id="window-3">
-					<div class="grid">
-						<div id="about-col1">
-							<p class="p-large">
-								An audio fingerprint is a condensed digital
-								summary of an audio signal, generated by
-								extracting relevant features of audio content.
-								In this project we attempt to visulize the sonic
-								fingerprint of the top 100 songs of each decade
-								starting at 1920. The data from the tracks sonic
-								fingerprint is generated with Spotify’s
-								streaming service algorithms for the
-								recommendation of songs.
-								<br /><br />
-								...
-							</p>
-
-							<p class="label-large">DATASET</p>
-							<a
-								class="p-large external-link"
-								target="_blank"
-								href="https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks?select=tracks.csv"
-								>Spotify Dataset 1921-2020, 600k+ Tracks ↗</a
-							>
-						</div>
-
-						<div id="about-col2">
-							<p class="label-small" style="margin-top: 0"
-								>PROJECT BY</p
-							>
-							<p class="p-small">
-								<a
-									class="external-link"
-									href="https://alexandraoliveira.pt/"
-									target="_blank"
-									>Alexandra Oliveira</a
-								><br />
-								<a
-									class="external-link"
-									href="mailto:apoliveira@student.dei.uc.pt"
-									><i>apoliveira@student.dei.uc.pt</i></a
-								> </p
-							><br />
-							<p class="p-small">
-								<a
-									class="external-link"
-									href="https://alexandraoliveira.pt/"
-									target="_blank"
-									>Jasper Doe</a
-								><br />
-								<a
-									class="external-link"
-									href="mailto:jasper@student.dei.uc.pt"
-									><i>jasper@student.dei.uc.pt</i></a
-								>
-							</p>
-							<p class="p-small">Project 1 — Visualizing facts</p>
-							<p class="p-small">Information Visualization</p>
-							<p class="p-small">Master in Design+Multimedia</p>
-							<a
-								class="p-small external-link"
-								href="https://www.dei.uc.pt/mdm/"
-								target="_blank"
-								>DEI / FCTUC ↗</a
-							>
-							<br />
-							<br />
-							<p class="p-small">Catarina Maças</p>
-							<a
-								class="p-small external-link"
-								href="mailto:macas@dei.uc.pt"
-								><i>macas@dei.uc.pt</i></a
-							>
-							<br />
-							<br />
-							<p class="p-small">Evgheni Polisciuc</p>
-							<a
-								class="p-small external-link"
-								href="mailto:evgheni@dei.uc.pt"
-								><i>evgheni@dei.uc.pt</i></a
-							>
-							<p class="p-small">October 2022</p>
-						</div>
-					</div>
-				</div>
+	
+				
 			</div>
-		</div>
 
 		<div id="mobile">
 			<h2>(musicTrack)</h2>

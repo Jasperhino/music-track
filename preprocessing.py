@@ -22,5 +22,10 @@ df
 df = df[df['decade'] >= 1970]
 df
 # %%
+# How many rows have tempo 0
+df.loc[df['tempo'] == 0].count()
+
+# %%
+
 # save to csv
 df.to_csv('data/tracks_filtered.csv', index=False, header=True)
