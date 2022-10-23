@@ -393,7 +393,8 @@ function radar_box_plot(name, data, categories, width, height, scale) {
 
 	const svg = d3
 		.select(`#small-multiple-${name}`)
-		.insert('svg')
+		.append('svg')
+		.attr('class', 'vinyl')
 		.attr('width', width)
 		.attr('height', height)
 		.attr('viewBox', [-width / 2, -height / 2, width, height]);
