@@ -18,8 +18,8 @@ df = df.groupby('decade').apply(lambda x: x.sort_values('popularity', ascending=
 df = df.reset_index(drop=True)
 df
 # %%
-# filter all songs with decade < 1970
-df = df[df['decade'] >= 1970]
+# filter all songs with decade < 1960 and > 2010
+df = df[(df['decade'] >= 1960) & (df['decade'] <= 2010)]
 df
 # %%
 # How many rows have tempo 0
