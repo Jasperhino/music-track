@@ -87,7 +87,7 @@ function useData(data) {
 	//Plot
 	const width = 400;
 	const height = 400;
-	const scale = 100; // scale graph
+	const scale = 102; // scale graph
 
 	for (const [name, bin] of top100bins) {
 		console.log(`Created small-multiple-${name}`);
@@ -135,7 +135,7 @@ function useData(data) {
 		]);
 
 	const arc = d3.arc();
-	const legendColor = d3.color('#D9C231');
+	const legendColor = d3.color('rgb(216, 203, 175)');
 	const backgroundColor = 'var(--records-color)';
 	const centerOffset = 0.6 * legendScale;
 	const sectorAngle = (Math.PI * 2) / categories.length;
@@ -227,7 +227,7 @@ function useData(data) {
 		.attr('y', ([_, value]) => -(value * sectorLegendScale + centerOffset))
 		.attr('dominant-baseline', 'middle')
 		.text(([text, _]) => text)
-		.attr('fill', 'rgb(200, 200, 200)')
+		.attr('fill', 'var(--text-color)')
 		.attr('class', 'label-legend');
 
 		
@@ -357,7 +357,7 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 	const axisColor = '#000';
 	const backgroundColor = 'var(--records-color)';
 	const rotationOffset = -Math.PI / 2;
-	const centerOffset = 0.50 * scale;
+	const centerOffset = 0.6 * scale;
 	const sectorAngle = (Math.PI * 2) / categories.length;
 
 	let quantileArcs = [];
@@ -423,15 +423,26 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.attr('cx', 0)
 		.attr('cy', 0)
 		.attr('stroke', "var(--record-stroke-color)")
-		.attr('fill', backgroundColor);
+		.attr('fill', backgroundColor)
+		.attr('stroke-width', 2);
 
+	// circle for label of the record
 	svg.append('circle')
 		.attr('r', centerOffset)
 		.attr('cx', 0)
 		.attr('cy', 0)
+		.attr('fill', 'var(--inner-recordlabel-color)')
+		.attr('stroke', "var(--record-stroke-color)")
+		.attr('stroke-width', 1.5);
+	
+	// small circle for center of the record
+		svg.append('circle')
+		.attr('r', 5)
+		.attr('cx', 0)
+		.attr('cy', 0)
 		.attr('fill', 'var(--bg-color')
 		.attr('stroke', "var(--record-stroke-color)")
-		.attr('stroke-width', 0.5);
+		.attr('stroke-width', 1.5);
 
 	const arcs = svg.append('g').attr('class', 'sector');
 
@@ -440,7 +451,7 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.join('path')
 		.attr('fill', 'none')
 		.attr('stroke', (_, i) => categoryColor(i % categories.length))
-		.attr('stroke-dasharray', '3, 3')
+		.attr('stroke-dasharray', '4, 2')
 		.attr('stroke-width', 2)
 		.attr('d', (p) => p);
 

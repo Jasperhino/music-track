@@ -1,8 +1,10 @@
 :root {
-    --bg-color: rgb(25, 20, 25);
-    --text-color: rgb(200, 200, 200);
+    --bg-color: rgb(30 26 34);
+    --text-color: rgb(216, 203, 175);
     --records-color: rgb(13, 13, 13);
-    --record-stroke-color: rgb(54, 50, 42);
+    --record-stroke-color: rgb(46, 38, 56);
+    --inner-recordlabel-color: rgba(216, 203, 175, 0.89);
+
 
     --h1-size: 1.4em; /* Used only in the header */
     --h2-size: 1.3em;
@@ -147,7 +149,7 @@ svg {
     align-items: center;
     width: 150%;
     flex-direction: column;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-left: 25%;
 }
 
@@ -155,7 +157,7 @@ svg {
     color: var(--text-color);
     font-family: 'Red Hat Display', sans-serif;
     font-size: 0.75em;
-    font-weight: 300 !important;
+    font-weight: 600 !important;
     letter-spacing: 0.5px;
 
 }
@@ -169,9 +171,9 @@ svg {
 
 .sm-labels-container {
     height: 60px;
-    margin-top: -30px;
+    margin-top: -40px;
     text-align: right;
-    margin-right: 20px;
+    margin-right: 24px;
 }
 
 ::-webkit-scrollbar {
@@ -194,10 +196,13 @@ svg {
 #web {       display: block; }
 #mobile {    display: none;  }
 
-svg {
-    /*animation: rotation 10s infinite linear;*/
+svg:hover {
+    animation: rotation 1s infinite linear;
 }
 
+#sector-legend>svg:hover {
+    animation: none;
+}
 
 @keyframes rotation {
     from {
