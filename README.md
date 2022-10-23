@@ -31,4 +31,4 @@ This project was developed as an assignment for the lecture Information Visualis
  - Evgheni Polisciuc
 
 
-> Created with ❤️ at the DEI - University of Coimbra
+> Created with ❤ at the DEI - University of Coimbra
