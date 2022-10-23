@@ -4,15 +4,12 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Spotify Song Portraits</title>
+		<title>Spotify Decade Portraits</title>
 
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap"
-			rel="stylesheet" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=Red Hat Display' rel='stylesheet'>
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css"
@@ -27,108 +24,64 @@
 	</head>
 	<body>
 		<div id="web">
-
-			<header>
-				<div id="title-container">
-					<h1 id="description"
-						>Portraying decades with song characteristics.</h1
-					>
-				</div>
-			</header>
 			
 			<div class="layout">
 				<div class="visualization">
 					<div id="small-multiples-container"></div>
 				</div>
 				<div class="sidebar">
-					<div class="about">
-						<h2>Decade</h2>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Curabitur faucibus bibendum placerat. Cras mattis tortor non
-						massa ultrices lacinia. Duis sit amet maximus magna. Duis ac
-						erat eu neque laoreet ullamcorper quis in tortor. Vivamus
-						tincidunt hendrerit ante ac consectetur. Suspendisse
-						elementum efficitur ligula, sit amet fermentum dolor egestas
-						a. Integer nec bibendum felis. Morbi lacinia venenatis
-						aliquet. Vivamus odio arcu, sagittis sed sollicitudin non,
-						bibendum vitae ante. Nam sit amet ligula nisi. Vestibulum
-						suscipit, sapien at cursus sollicitudin, mi erat tincidunt
-						leo, nec euismod elit justo placerat mi. Donec fringilla
-						pretium justo vitae ultricies. Nullam bibendum lobortis
-						ligula, eu fringilla dui porta sit amet. Vestibulum lorem
-						lacus, convallis eget diam et, rutrum pulvinar orci. Integer
-						maximus in mi et blandit. Donec eleifend aliquet sodales. In
-						nec enim vitae nulla imperdiet blandit ac ut velit. Sed
-						tellus justo, fringilla sed augue id, placerat finibus
-						metus. Quisque aliquam molestie nibh, id tristique massa
-						commodo pretium. Suspendisse libero lacus, venenatis eu
-						vestibulum id, gravida eu arcu. Ut in dolor aliquam,
-						placerat mi at, pulvinar eros. In posuere porta diam, vitae
-						ullamcorper est convallis maximus. Suspendisse luctus
-						aliquam tortor sit amet iaculis. Morbi sollicitudin est sed
-						malesuada posuere. Interdum et malesuada fames ac ante ipsum
-						primis in faucibus. Mauris diam sem, commodo at ex id,
-						viverra congue libero. Aliquam consequat tellus neque, id
-						rutrum neque semper ut. Fusce rutrum nunc at pellentesque
-						pellentesque. Ut convallis felis id orci pretium aliquet at
-						vitae quam. Fusce sagittis enim vitae luctus rutrum.
-						Pellentesque habitant morbi tristique senectus et netus et
-						malesuada fames ac turpis egestas.
-	
-						<h2>Valence</h2>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Curabitur faucibus bibendum placerat. Cras mattis tortor non
-						massa ultrices lacinia. Duis sit amet maximus magna. Duis ac
-						erat eu neque laoreet ullamcorper quis in tortor. Vivamus
-						tincidunt hendrerit ante ac consectetur.
-	
-						<h2>Tempo</h2>
-						Suspendisse elementum efficitur ligula, sit amet fermentum
-						dolor egestas a. Integer nec bibendum felis. Morbi lacinia
-						venenatis aliquet. Vivamus odio arcu, sagittis sed
-						sollicitudin non, bibendum vitae ante. Nam sit amet ligula
-						nisi. Vestibulum suscipit, sapien at cursus sollicitudin, mi
-						erat tincidunt leo, nec euismod elit justo placerat mi.
-						Donec fringilla pretium justo vitae ultricies. Nullam
-						bibendum lobortis ligula, eu fringilla dui porta sit amet.
-						Vestibulum lorem lacus, convallis eget diam et, rutrum
-						pulvinar orci.
-	
-						<h2>Acousticness</h2>
-						Integer maximus in mi et blandit. Donec eleifend aliquet
-						sodales. In nec enim vitae nulla imperdiet blandit ac ut
-						velit. Sed tellus justo, fringilla sed augue id, placerat
-						finibus metus. Quisque aliquam molestie nibh, id tristique.
-
-						<h2>Tempo</h2>
-						Suspendisse elementum efficitur ligula, sit amet fermentum
-						dolor egestas a. Integer nec bibendum felis. Morbi lacinia
-						venenatis aliquet. Vivamus odio arcu, sagittis sed
-						sollicitudin non, bibendum vitae ante. Nam sit amet ligula
-						nisi. Vestibulum suscipit, sapien at cursus sollicitudin, mi
-						erat tincidunt leo, nec euismod elit justo placerat mi.
-						Donec fringilla pretium justo vitae ultricies. Nullam
-						bibendum lobortis ligula, eu fringilla dui porta sit amet.
-						Vestibulum lorem lacus, convallis eget diam et, rutrum
-						pulvinar orci.
-	
-						<h2>Acousticness</h2>
-						Integer maximus in mi et blandit. Donec eleifend aliquet
-						sodales. In nec enim vitae nulla imperdiet blandit ac ut
-						velit. Sed tellus justo, fringilla sed augue id, placerat
-						finibus metus. Quisque aliquam molestie nibh, id tristique.
+					<div>
+					<h1 id="description"
+					>Portraying decades using Spotify's audio features.</h1
+				>	<h2>Music portraits of the top 100 tracks from each decade between the years of 1960 and 2020.</h2>
+			</div>
+				<div class="about">
+					<div>
+						<div style = "color:#D9C231" > 
+							<p class = "label-large">Acousticness</p>
+							<p class = "label-small">0 to 100 %</p>
+							<p class ="p-small">100% represents high confidence the track is acoustic.</p>
+						</div>
+						<div style = "color:#EC8234" > 
+							<p class = "label-large">Energy</p>
+							<p class = "label-small">0 to 100 %</p>
+							<p class ="p-small">Perceptual measure of intensity and activity.</p>
+						</div>
+						<div style = "color:#FF5E63" > 
+								<p class = "label-large">Valence</p>
+							<p class = "label-small">0 to 100 %</p>
+							<p class ="p-small">Tracks with High valence sound more positive (happy, euphoric).</p>
+						</div>
+					</div>
+					<div>
+						<div style = "color:#7f57b3" > 
+							<p class = "label-large">Tempo</p>
+							<p class = "label-small">0 to 200 BPM</p>
+							<p class ="p-small">Estimated tempo of a track in beats per minute.</p>
+							</div>
+						<div style = "color:#B23CB2" > 
+								<p class = "label-large">Duration</p>
+								<p class = "label-small">0 to 10 min</p>
+								<p class ="p-small">Duration of the track.</p>
+							</div>
+						<div style = "color:#EE4395" > 
+								<p class = "label-large">Loudness</p>
+							<p class = "label-small">-26 to 0 dB</p>
+							<p class ="p-small">Primary psychological correlate of physical strength.</p>
+						</div>
 					</div>
 					<div class="legend">
 						<div id="radar-legend"></div>
 						<div id="sector-legend"></div>
 					</div>
+					</div>
+
 				</div>
 	
 				
 			</div>
 
 		<div id="mobile">
-			<h2>(musicTrack)</h2>
 			<p class="p-small">
 				Sorry, this website is not available for the current window
 				size.</p

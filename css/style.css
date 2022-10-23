@@ -1,31 +1,27 @@
 :root {
-    --bg-color: white;
-    --text-color: black;
-    --primary-color: #28C850;
-    --secondary-color: #000;
+    --bg-color: rgb(25, 20, 25);
+    --text-color: rgb(200, 200, 200);
+    --records-color: rgb(13, 13, 13);
+    --record-stroke-color: rgb(54, 50, 42);
 
     --h1-size: 1.4em; /* Used only in the header */
-    --h2-size: 22px;
-    --h3-size: 1.1em;
+    --h2-size: 1.3em;
+    --h3-size: 1.2em;
     --h4-size: 0.7em;
 
-    --p-s-size: 1.18em;
-    --p-s-lh: 1.5em;
-    --p-label-s-size: 1.1em;
-    --p-label-s-margin-top: 2em;
+    --p-s-size: 0.9em;
+    --p-s-lh: 1.3em;
 
-    --p-m-size: 1.45em;
-    --p-m-lh: 1.45;
+    --p-label-l-size: 1.3em;
+    --p-label-l-margin-top: 1.3em;
 
-    --p-l-size: 1.45em;
-    --p-l-lh: 1.5em;
-    --p-label-l-size: 1.4em;
-    --p-label-l-margin-top: 2em;
-
+    --p-label-s-size: 0.9em;
+    --p-label-s-margin-top: 0.3em;
 
     --header-height: 6vh;
-    --main-margin: 30px;
-}
+    --main-margin: 20px;
+}  
+
 
 * {
     margin: 0;
@@ -34,7 +30,7 @@
 
 body {
     background-color: var(--bg-color);
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Red Hat Display', sans-serif;
     color: var(--text-color);
     padding: 0;
     margin: 0;
@@ -49,17 +45,19 @@ svg {
 
 h1, h2, h3, h4 {
     font-weight: normal !important;
-    font-family: 'Agrandir-Grand-Light', sans-serif;
 }
 
 h1 {
     font-size: var(--h1-size);
     line-height: 1.35em;
+    font-weight: 1000 !important;
 }
 
 h2 {
     font-size: var(--h2-size);
-    margin-bottom: 10px;
+    line-height: 1.35em;
+    margin-bottom: 50px;
+    margin-top: 20px;
 }
 
 h3 {
@@ -69,48 +67,35 @@ h3 {
 
 h4 {
     font-size: var(--h4-size);
-    font-family: 'Agrandir-Grand', sans-serif;
 }
 
 
 p {
-    font-family: 'Work Sans', sans-serif;
     font-weight: 300 !important;
 }
 
 .p-small {
     font-size: var(--p-s-size);
     line-height: var(--p-s-lh);
-    font-weight: 300 !important;
+    font-weight: 500 !important;
+    color: var(--text-color);
 }
-
-.p-medium {
-    font-size: var(--p-m-size);
-    line-height: var(--p-m-lh);
-}
-
-.p-large {
-    font-size: var(--p-l-size);
-    line-height: var(--p-l-lh);
-}
-
 
 
 .label-large{
-    font-weight: normal !important;
-    font-family: 'Agrandir-Grand', sans-serif;
-    color: var(--primary-color);
+    font-weight: 1000 !important;
     font-size: var(--p-label-l-size);
     margin-top: var(--p-label-l-margin-top);
+
 }
 
 .label-small{
-    font-weight: 500 !important;
-    font-family: 'Work Sans', sans-serif;
-    color: var(--primary-color);
+    font-weight: 1000 !important;
     font-size: var(--p-label-s-size);
     margin-top: var(--p-label-s-margin-top);
-    margin-bottom: 3px;
+    margin-bottom: 10px;
+    opacity: 90%;
+
 }
 
 a {
@@ -119,68 +104,74 @@ a {
     font-weight: 300 !important;
 }
 
-/*-- For external links. Not used in header-link --*/
-.external-link {
-    transition: all 0.5s ease;
-    margin-left: 00px;
-    opacity: 100%;
+svg {
+    color: var(--text-color);
 }
 
-.external-link:hover {
-    margin-left: 10px;
-    opacity: 80%;
+#description {
+    margin-bottom: 10px;
 }
 
 .visualization {    
-    padding: var(--main-margin);
+    padding-right: calc(var(--main-margin) * 2);
     position: fixed;
     bottom: 0;
-    left: 0;
-    width: 70%;
-    height: 100vh;
+    right: 0;
+    top: 0;
+    width: 1000px;
+    height: 90%;
     display: flex;
 }
 
-header {
-    width: 60%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: var(--main-margin);
-    height: var(--header-height);
-    background-color: white;
-}
 
 .sidebar {
-    margin-left: auto;
-    width: 30%;
-    padding-top: calc(var(--header-height)*2);
+    width: 340px;
+    padding-top: calc(var(--main-margin)*4);
+    padding-left: calc(var(--main-margin)*5);
+    display: flex;
+    height: 80vh;
+    flex-direction: column;
+}
+
+.about {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 30px;
 }
 
 
 .legend {
-    padding: 10px;
-    position: fixed;
-    z-index: 1; /* Stay on top */
-    bottom: 0; /* Stay at the top */
-    right: 0;
+    z-index: 1;
+    padding-bottom: calc(var(--main-margin) * 3);
     display: flex;
     align-items: center;
-    width: 30%;
-    justify-content: space-around;
-    background-color: white;
+    width: 150%;
+    flex-direction: column;
+    margin-top: 40px;
+    margin-left: 25%;
+}
+
+.label-legend {
+    color: var(--text-color);
+    font-family: 'Red Hat Display', sans-serif;
+    font-size: 0.75em;
+    font-weight: 300 !important;
+    letter-spacing: 0.5px;
+
 }
 
 #small-multiples-container {
     display: grid;
+    align-items: center;
     grid-template-columns: repeat(3, 1fr);
-    padding-top: calc(var(--header-height)*2);
 
 }
 
 .sm-labels-container {
-    height: 3vw;
-    margin-top: -6vh;
+    height: 60px;
+    margin-top: -30px;
+    text-align: right;
+    margin-right: 20px;
 }
 
 ::-webkit-scrollbar {
@@ -204,7 +195,7 @@ header {
 #mobile {    display: none;  }
 
 svg {
-    /*animation: rotation 200s infinite linear;*/
+    /*animation: rotation 10s infinite linear;*/
 }
 
 
@@ -237,23 +228,4 @@ svg {
     }
 }
 
-@font-face {
-    font-family: 'Agrandir-Grand';
-    src: url('font/Agrandir-Grand.ttf');
-}
-
-@font-face {
-    font-family: 'Agrandir-Grand-Heavy';
-    src: url('font/Agrandir-GrandHeavy.ttf');
-}
-
-@font-face {
-    font-family: 'Agrandir-Grand-Italic';
-    src: url('font/Agrandir-GrandItalic.ttf');
-}
-
-@font-face {
-    font-family: 'Agrandir-Grand-Light';
-    src: url('font/Agrandir-GrandLight.ttf');
-}
 

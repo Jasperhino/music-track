@@ -81,13 +81,13 @@ function useData(data) {
 	const bins = d3.groups(scaled_data, (d) => d.decade);
 	console.log(bins);
 	const top100bins = bins.map(([name, bin]) => [name, bin.slice(0, 100)]);
-	top100bins.sort((a, b) => d3.descending(parseInt(a[0]), parseInt(b[0])));
+	top100bins.sort((a, b) => d3.ascending(parseInt(a[0]), parseInt(b[0])));
 	console.log(top100bins);
 
 	//Plot
 	const width = 400;
 	const height = 400;
-	const scale = 150;
+	const scale = 100; // scale graph
 
 	for (const [name, bin] of top100bins) {
 		console.log(`Created small-multiple-${name}`);
@@ -103,9 +103,9 @@ function useData(data) {
 			.append('div')
 			.attr('class', 'sm-labels-container')
 			.append('h3')
-			.text(`${name}s`)
+			.text(`${name-10}s`)
 			.append('h4')
-			.text(`(${name} - ${name + 9})`);
+			.text(`${name-10}—${name-10 + 9}`);
 
 		radar_box_plot(
 			`small-multiple-${name}`,
@@ -118,38 +118,40 @@ function useData(data) {
 	}
 
 	//Legend
-	const legendSize = 200;
-	const legendScale = 100;
-	const sectorLegendScale = legendScale * 1.8;
+	const legendSize = 130;
+	const legendScale = 80;
+	const sectorLegendScale = legendScale * 1.0;
 	const rotationOffset = -Math.PI / 2;
 	const sectorLegend = d3
 		.select('#sector-legend')
 		.append('svg')
-		.attr('width', legendSize + 100)
-		.attr('height', legendSize)
+		.attr('width', legendSize + 380)
+		.attr('height', legendSize + 200)
 		.attr('viewBox', [
-			-legendSize / 2 - 60,
-			-legendSize,
+			-legendSize / 2 - 15,
+			-legendSize - 20,
 			legendSize,
 			legendSize,
 		]);
 
 	const arc = d3.arc();
-	const legendColor = d3.color('#28C850');
-	const backgroundColor = 'black';
-	const centerOffset = 0.07 * legendScale;
+	const legendColor = d3.color('#D9C231');
+	const backgroundColor = 'var(--records-color)';
+	const centerOffset = 0.6 * legendScale;
 	const sectorAngle = (Math.PI * 2) / categories.length;
 
+	// Fake values for the example legend
 	const min = 0.1;
-	const q3 = 0.4;
-	const median = 0.6;
-	const q1 = 0.8;
+	const q3 = 0.3;
+	const median = 0.5;
+	const q1 = 0.7;
 	const max = 0.9;
 
 	sectorLegend
 		.append('path')
 		.attr('class', 'arc')
-		.attr('stroke-width', 5)
+		.attr('stroke-width', 2)
+		.attr('stroke', 'var(--record-stroke-color)')
 		.attr('fill', backgroundColor)
 		.attr(
 			'd',
@@ -160,6 +162,7 @@ function useData(data) {
 				endAngle: 0,
 			})
 		);
+		
 
 	sectorLegend
 		.append('path')
@@ -215,28 +218,31 @@ function useData(data) {
 		.data([
 			['min', min],
 			['max', max],
-			['q1', q1],
-			['q3', q3],
+			['1st quartile', q1],
+			['3rd quartile', q3],
 			['median', median],
 		])
 		.join('text')
 		.attr('x', 5)
 		.attr('y', ([_, value]) => -(value * sectorLegendScale + centerOffset))
 		.attr('dominant-baseline', 'middle')
-		.text(([text, _]) => text);
+		.text(([text, _]) => text)
+		.attr('fill', 'rgb(200, 200, 200)')
+		.attr('class', 'label-legend');
 
+		
 	sectorLegend
 		.selectAll('.boundaryArc')
 		.data([minPath, maxPath])
 		.join('path')
 		.attr('fill', 'none')
-		.attr('stroke', 'white')
-		.attr('stroke-dasharray', '1, 3')
+		.attr('stroke', '#D9C231')
+		.attr('stroke-dasharray', '4, 3')
 		.attr('stroke-width', 1)
 		.attr('d', (p) => p);
 
 	// Radar Legend
-	const labelArcs = categories.map((category, i) => {
+/* 	const labelArcs = categories.map((category, i) => {
 		const labelArc = d3.path();
 		labelArc.arc(
 			0,
@@ -247,7 +253,7 @@ function useData(data) {
 		);
 
 		return [category, labelArc];
-	});
+	}); 
 
 	const margin = 30;
 	const radarLegend = d3
@@ -307,8 +313,8 @@ function useData(data) {
 		.attr('startOffset', '50%')
 		.attr('text-anchor', 'middle')
 		.text((a) => a[0]);
-
-	const iconSize = 30;
+ */
+	/* const iconSize = 30;
 	const icons = categories.map((category, i) => {
 		const x =
 			Math.cos(sectorAngle * i + sectorAngle / 2 + rotationOffset) *
@@ -335,17 +341,23 @@ function useData(data) {
 		.attr('r', 2)
 		.attr('fill', 'red')
 		.attr('x', ([_, x, y]) => x)
-		.attr('y', ([_, x, y]) => y);
+		.attr('y', ([_, x, y]) => y);*/
 }
+
+
+
+
+
+/* Radar Box Plot Function */
 
 function radar_box_plot(container_id, data, categories, width, height, scale) {
 	const colorScale = d3.scaleLinear().domain([0, categories.length]);
 	const categoryColor = (c) => d3.interpolateWarm(colorScale(c));
 
-	const axisColor = '#303030';
-	const backgroundColor = '#101010';
+	const axisColor = '#000';
+	const backgroundColor = 'var(--records-color)';
 	const rotationOffset = -Math.PI / 2;
-	const centerOffset = 0.07 * scale;
+	const centerOffset = 0.50 * scale;
 	const sectorAngle = (Math.PI * 2) / categories.length;
 
 	let quantileArcs = [];
@@ -410,15 +422,16 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.attr('r', scale + centerOffset)
 		.attr('cx', 0)
 		.attr('cy', 0)
+		.attr('stroke', "var(--record-stroke-color)")
 		.attr('fill', backgroundColor);
 
 	svg.append('circle')
 		.attr('r', centerOffset)
 		.attr('cx', 0)
 		.attr('cy', 0)
-		.attr('fill', 'white')
-		.attr('stroke', axisColor)
-		.attr('stroke-width', 1);
+		.attr('fill', 'var(--bg-color')
+		.attr('stroke', "var(--record-stroke-color)")
+		.attr('stroke-width', 0.5);
 
 	const arcs = svg.append('g').attr('class', 'sector');
 
@@ -427,8 +440,8 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.join('path')
 		.attr('fill', 'none')
 		.attr('stroke', (_, i) => categoryColor(i % categories.length))
-		.attr('stroke-dasharray', '1, 3')
-		.attr('stroke-width', 1)
+		.attr('stroke-dasharray', '3, 3')
+		.attr('stroke-width', 2)
 		.attr('d', (p) => p);
 
 	arcs.selectAll('.quantileArc')
@@ -436,7 +449,7 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.join('path')
 		.attr('class', 'arc')
 		.attr('fill', (_, i) =>
-			d3.color(categoryColor(i)).copy({ opacity: 0.2 })
+			d3.color(categoryColor(i)).copy({ opacity: 0.3 })
 		)
 		.attr('d', (a) => arc(a));
 
@@ -458,5 +471,5 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.attr('y2', -(scale + centerOffset))
 		.attr('transform', (_, i) => `rotate(${(i * 360) / categories.length})`)
 		.attr('stroke', axisColor)
-		.attr('stroke-width', 1);
+		.attr('stroke-width', 3);
 }
