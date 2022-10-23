@@ -428,13 +428,15 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 
 	// circle for label of the record
 	svg.append('circle')
-		.attr('r', centerOffset)
-		.attr('cx', 0)
-		.attr('cy', 0)
-		.attr('fill', 'var(--inner-recordlabel-color)')
-		.attr('stroke', "var(--record-stroke-color)")
-		.attr('stroke-width', 1.5);
-	
+	.attr('r', centerOffset)
+	.attr('cx', 0)
+	.attr('cy', 0)
+	.attr('fill', 'var(--inner-recordlabel-color)')
+	.attr('stroke', "var(--record-stroke-color)")
+	.attr('stroke-width', 1.5);
+
+
+
 	// small circle for center of the record
 		svg.append('circle')
 		.attr('r', 5)

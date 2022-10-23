@@ -3,7 +3,7 @@
     --text-color: rgb(216, 203, 175);
     --records-color: rgb(13, 13, 13);
     --record-stroke-color: rgb(46, 38, 56);
-    --inner-recordlabel-color: rgba(216, 203, 175, 0.89);
+    --inner-recordlabel-color: rgba(214, 195, 166, 0.89);
 
 
     --h1-size: 1.4em; /* Used only in the header */
@@ -197,7 +197,7 @@ svg {
 #mobile {    display: none;  }
 
 svg:hover {
-    animation: rotation 1s infinite linear;
+    animation: rotation 2s infinite linear;
 }
 
 #sector-legend>svg:hover {
