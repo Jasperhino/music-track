@@ -87,7 +87,7 @@ function useData(data) {
 	//Plot
 	const width = 400;
 	const height = 400;
-	const scale = 102; // scale graph
+	const scale = 110; // scale graph
 
 	for (const [name, bin] of top100bins) {
 		console.log(`Created small-multiple-${name}`);
@@ -99,22 +99,8 @@ function useData(data) {
 			.append('div')
 			.attr('class', 'sm-graph-container')
 			.attr('id', `small-multiple-${name}`);
-		container
-			.append('div')
-			.attr('class', 'sm-labels-container')
-			.append('h3')
-			.text(`${name-10}s`)
-			.append('h4')
-			.text(`${name-10}—${name-10 + 9}`);
 
-		radar_box_plot(
-			`small-multiple-${name}`,
-			bin,
-			categories,
-			width,
-			height,
-			scale
-		);
+		radar_box_plot(name, bin, categories, width, height, scale);
 	}
 
 	//Legend
@@ -162,7 +148,6 @@ function useData(data) {
 				endAngle: 0,
 			})
 		);
-		
 
 	sectorLegend
 		.append('path')
@@ -230,19 +215,18 @@ function useData(data) {
 		.attr('fill', 'var(--text-color)')
 		.attr('class', 'label-legend');
 
-		
 	sectorLegend
 		.selectAll('.boundaryArc')
 		.data([minPath, maxPath])
 		.join('path')
 		.attr('fill', 'none')
-		.attr('stroke', '#D9C231')
+		.attr('stroke', legendColor.copy({ opacity: 0.4 }))
 		.attr('stroke-dasharray', '4, 3')
 		.attr('stroke-width', 1)
 		.attr('d', (p) => p);
 
 	// Radar Legend
-/* 	const labelArcs = categories.map((category, i) => {
+	/* 	const labelArcs = categories.map((category, i) => {
 		const labelArc = d3.path();
 		labelArc.arc(
 			0,
@@ -344,13 +328,9 @@ function useData(data) {
 		.attr('y', ([_, x, y]) => y);*/
 }
 
-
-
-
-
 /* Radar Box Plot Function */
 
-function radar_box_plot(container_id, data, categories, width, height, scale) {
+function radar_box_plot(name, data, categories, width, height, scale) {
 	const colorScale = d3.scaleLinear().domain([0, categories.length]);
 	const categoryColor = (c) => d3.interpolateWarm(colorScale(c));
 
@@ -412,7 +392,7 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 	const arc = d3.arc();
 
 	const svg = d3
-		.select(`#${container_id}`)
+		.select(`#small-multiple-${name}`)
 		.insert('svg')
 		.attr('width', width)
 		.attr('height', height)
@@ -422,7 +402,7 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.attr('r', scale + centerOffset)
 		.attr('cx', 0)
 		.attr('cy', 0)
-		.attr('stroke', "var(--record-stroke-color)")
+		.attr('stroke', 'var(--record-stroke-color)')
 		.attr('fill', backgroundColor)
 		.attr('stroke-width', 2);
 
@@ -432,16 +412,31 @@ function radar_box_plot(container_id, data, categories, width, height, scale) {
 		.attr('cx', 0)
 		.attr('cy', 0)
 		.attr('fill', 'var(--inner-recordlabel-color)')
-		.attr('stroke', "var(--record-stroke-color)")
+		.attr('stroke', 'var(--record-stroke-color)')
 		.attr('stroke-width', 1.5);
-	
+
+	svg.append('text')
+		.attr('x', 0)
+		.attr('y', -0.3 * centerOffset)
+		.attr('text-anchor', 'middle')
+		.attr('alignment-baseline', 'middle')
+		.attr('font-size', '1.5rem')
+		.attr('font-weight', 'bold')
+		.text(`${name}s`);
+
+	svg.append('text')
+		.attr('x', 0)
+		.attr('y', 0.4 * centerOffset)
+		.attr('text-anchor', 'middle')
+		.text(`${name} - ${name + 9}`);
+
 	// small circle for center of the record
-		svg.append('circle')
+	svg.append('circle')
 		.attr('r', 5)
 		.attr('cx', 0)
 		.attr('cy', 0)
 		.attr('fill', 'var(--bg-color')
-		.attr('stroke', "var(--record-stroke-color)")
+		.attr('stroke', 'var(--record-stroke-color)')
 		.attr('stroke-width', 1.5);
 
 	const arcs = svg.append('g').attr('class', 'sector');

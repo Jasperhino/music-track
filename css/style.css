@@ -120,8 +120,8 @@ svg {
     bottom: 0;
     right: 0;
     top: 0;
-    width: 1000px;
-    height: 90%;
+    width: 1200px;
+    height: 100%;
     display: flex;
 }
 
@@ -163,10 +163,10 @@ svg {
 }
 
 #small-multiples-container {
+    flex: 1;
     display: grid;
     align-items: center;
     grid-template-columns: repeat(3, 1fr);
-
 }
 
 .sm-labels-container {
@@ -204,12 +204,9 @@ svg:hover {
     animation: none;
 }
 
-@keyframes rotation {
-    from {
-      transform: rotate(0deg);
-    }
+@keyframes spin {
     to {
-      transform: rotate(359deg);
+      transform: rotate(360deg);
     }
   }
 
