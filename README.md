@@ -1,6 +1,7 @@
 # music-track
-Spotify audio feature visualisation of decades using d3.js
-https://jasperhino.github.io/music-track/
+Spotify audio feature visualisation of decades using d3.js.
+
+> https://jasperhino.github.io/music-track/
 
 ![Screenshot](https://user-images.githubusercontent.com/33397387/197418084-6c38b574-482d-42a3-b760-c5130871dc79.png)
 
